@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   BookOpen,
   Star,
@@ -17,12 +17,15 @@ import {
   MapPin,
   Target,
   IndianRupee,
+  Sparkles,
 } from "lucide-react";
 import { FaBuilding, FaUserGraduate } from "react-icons/fa";
 import CountUp from "@/src/components/CountUp";
 import { useRouter } from "next/navigation";
 import { GraduationCap, FileText } from "lucide-react";
 import CircularText from "@/src/components/CircularText";
+import FAQPage from "@/src/components/FQPage";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -145,7 +148,6 @@ const MentorCard = ({ mentor }: any) => {
         </div>
 
         {/* Optional View Profile link */}
-
       </div>
     </motion.div>
   );
@@ -156,39 +158,15 @@ export default function Home() {
   const [mentors, setMentors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [imgIndex, setImgIndex] = useState(0);
-  const [imagesReady, setImagesReady] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const preload = heroImages.map(
-      (src) =>
-        new Promise<void>((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => resolve();
-          img.onerror = () => resolve(); // keep going even if one fails
-        }),
-    );
-
-    Promise.all(preload).then(() => {
-      if (!cancelled) setImagesReady(true);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // Hero Background Auto Change
-  useEffect(() => {
-    if (!imagesReady) return; // wait until loaded
+useEffect(() => {
+  const timer = setInterval(() => {
+    setImgIndex((prev) => (prev + 1) % heroImages.length);
+  }, 3000);
 
-    const timer = setInterval(() => {
-      setImgIndex((prev) => (prev + 1) % heroImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [imagesReady]);
+  return () => clearInterval(timer);
+}, []);
 
   // Fetch Data
   useEffect(() => {
@@ -216,43 +194,34 @@ export default function Home() {
     <div className="space-y-16 md:space-y-20 pb-16 md:pb-20 bg-[#fcfcfc]">
       {/* HERO SECTION - Responsive */}
       {/* HERO SECTION - FULLY RESPONSIVE */}
-      <section className="relative min-h-[85vh] flex items-center justify-center text-center px-4 overflow-hidden bg-slate-900">
+      <section className="relative min-h-[85vh] flex items-center justify-center text-center px-4 overflow-hidden">
         {/* Hero background – dark fallback always visible */}
+        {/* HERO IMAGE SLIDER */}
         <div className="absolute inset-0 z-0">
-          {imagesReady ? (
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={imgIndex}
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 1.6, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full bg-slate-900"
-                style={{
-                  backgroundImage: `url(${heroImages[imgIndex]})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
-            </AnimatePresence>
-          ) : (
-            <div className="absolute inset-0 bg-slate-900" />
-          )}
-        </div>
+          {heroImages.map((src, index) => (
+            <Image
+              key={src}
+              src={src}
+              alt={`Hero ${index}`}
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className={`
+        object-cover object-center
+        absolute inset-0
+        transition-opacity duration-1000 ease-in-out
+        ${index === imgIndex ? "opacity-100" : "opacity-0"}
+      `}
+            />
+          ))}
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/10 via-black/10 to-[#fcfcfc]" />
+          {/* OVERLAY */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/50 z-10" />
+        </div>
 
         {/* Content */}
         <div className="relative z-20 max-w-4xl mx-auto space-y-6 px-4">
           {/* CircularText */}
-          <div className="absolute left-[-200] top-40 -translate-y-1/2 hidden md:block">
-            <CircularText
-              text="WELCOME*TO*SKILLHAT*"
-              spinDuration={40}
-              className="custom-class"
-            />
-          </div>
 
           {/* Badge */}
           <motion.div
@@ -270,7 +239,7 @@ export default function Home() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight"
           >
             Accelerate Your <br />
-            <span className="text-blue-400">Career Growth</span>
+            <span className="text-blue-600">Career Growth</span>
           </motion.h1>
 
           <motion.p
@@ -290,7 +259,7 @@ export default function Home() {
           >
             <Link
               href="/internships"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-2xl font-bold text-base sm:text-lg inline-flex items-center gap-2 transition-all shadow-xl shadow-blue-600/30 group"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 sm:px-10 py-3 sm:py-3  font-bold text-base sm:text-lg inline-flex items-center gap-2 transition-all shadow-xl shadow-blue-600/30 group"
             >
               Explore Internships{" "}
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -300,8 +269,8 @@ export default function Home() {
       </section>
 
       {/* STATS SECTION - Responsive */}
-      <div className="px-4 -mt-20 sm:-mt-28 md:-mt-32 relative z-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 bg-white p-6 md:p-8 lg:p-10 rounded-[2rem] border shadow-xl">
+      <div className=" -mt-30 sm:-mt-28 md:-mt-32 relative z-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 bg-white p-6 lg:p-10 shadow-xl">
           {stats.map((stat, i) => (
             <div key={i} className="text-center group">
               <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
@@ -484,11 +453,11 @@ export default function Home() {
 
       {/* TRUSTED PARTNERS */}
       <section className="max-w-7xl mx-auto px-4 py-10 overflow-hidden">
-        <p className="text-center text-gray-400 font-bold uppercase tracking-[0.2em] text-sm mb-10">
+        <p className="text-center text-black-400 font-bold uppercase tracking-[0.2em] text-sm mb-10">
           Trusted by students from
         </p>
 
-        <div className="relative">
+        <div className="relative ">
           {/* Left to right scroll */}
           <div className="flex overflow-hidden mb-6">
             <div className="flex animate-scroll-left-to-right gap-8 md:gap-16 lg:gap-24 py-4">
@@ -572,22 +541,48 @@ export default function Home() {
       </section>
 
       {/* CALL TO ACTION */}
-      <section className="max-w-5xl mx-auto px-4 pb-12">
-        <div className="bg-gray-900 text-white py-12 md:py-16 px-6 md:px-12 rounded-3xl text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-blue-600/20 blur-[80px]" />
-          <div className="relative z-10 space-y-4">
-            <h2 className="text-2xl md:text-4xl font-bold tracking-tight">
+      <section className="relative overflow-hidden bg-gradient-to-br from-zinc-950 via-zinc-900 to-black border border-white/10 py-16 md:py-20">
+        {/* Background Glows */}
+        <div className="absolute -left-40 top-10 h-80 w-80 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute -right-40 bottom-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="absolute inset-0 opacity-[0.06]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <div className="space-y-6">
+            {/* Main Heading */}
+            <h2 className="text-4xl md:text-4xl lg:text-5xl font-bold text-white tracking-tighter leading-tight">
               Ready to jumpstart your career?
             </h2>
-            <p className="text-gray-400 max-w-md mx-auto text-sm md:text-base font-medium">
-              Join our community and get access to exclusive content.
+
+            {/* Subheading */}
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Join thousands of students gaining real industry experience
+              through expert mentorship and recognized certifications.
             </p>
-            <Link
-              href="/register"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-3.5 rounded-2xl font-semibold text-base transition-transform inline-block hover:scale-105"
-            >
-              Get Started
-            </Link>
+
+            {/* CTA Button */}
+            <div className="pt-4">
+              <Link
+                href="/register"
+                className="group inline-flex items-center gap-3 bg-white text-black hover:bg-gray-100 px-10 py-3 font-semibold text-lg transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-white/20"
+              >
+                Get Started Free
+                <span className="group-hover:translate-x-1 transition-transform">
+                  →
+                </span>
+              </Link>
+            </div>
+
+            {/* Trust Signals */}
           </div>
         </div>
       </section>
@@ -624,6 +619,66 @@ export default function Home() {
                 />
               ))
             : mentors.map((m) => <MentorCard key={m._id} mentor={m} />)}
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden py-6 md:px-10">
+        <FAQPage />
+      </section>
+      <section className="relative overflow-hidden  border border-white/10 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black px-6 py-6 md:px-10 shadow-xl">
+        {/* Background Glow */}
+        <div className="absolute -left-20 top-0 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
+        <div className="absolute right-0 top-0 h-60 w-60 rounded-full bg-cyan-500/20 blur-3xl" />
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-[0.06]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl"
+          >
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-300 backdrop-blur-md">
+              <Sparkles className="h-4 w-4" />
+              Partnership Program
+            </div>
+
+            <h2 className="text-2xl font-bold tracking-tight text-white md:text-4xl">
+              Partner With Us & Grow Together
+            </h2>
+
+            <p className="mt-3 text-sm leading-relaxed text-zinc-400 md:text-base">
+              Promote your brand, collaborate with our ecosystem, and unlock
+              premium partnership opportunities through our platform.
+            </p>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Link
+              href="/partner/login"
+              className="group inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
+            >
+              Become a Partner
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

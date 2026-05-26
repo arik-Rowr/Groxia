@@ -159,7 +159,7 @@ export default function CertificatePage() {
                 {/* Dynamic Logo / Organization */}
                 <div>
                   <h1 className="text-2xl font-bold text-gray-800">
-                    {certificateData.organization_name || "SkillHat"}
+                    {certificateData.organization_name || "Gocyn"}
                   </h1>
                   <p className="text-sm text-gray-600">
                     {certificateData.organization_tagline ||
@@ -251,19 +251,19 @@ export default function CertificatePage() {
               <div>
                 <p className="font-semibold text-lg">Authorized Signatory</p>
                 <p className="text-gray-600">
-                  {certificateData.organization_name || "SkillHat"}
+                  {certificateData.organization_name || "Gocyn"}
                 </p>
               </div>
 
               <div className="text-right">
                 <p className="text-sm text-black-500">Verify at</p>
                 <a
-                  href={`https://www.skillhat.in/verify`}
+                  href={`https://www.gocyn.in/verify`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-sm text-blue-600 underline hover:text-blue-800"
                 >
-                  {`www.skillhat.in/verify`}
+                  {`www.gocyn.in/verify`}
                 </a>
                 <p className="text-sm text-black-500">Certificate ID</p>
                 <p className="font-mono blue-600">
@@ -290,7 +290,7 @@ export default function CertificatePage() {
               triggerConfetti();
               window.open(
                 `https://www.linkedin.com/sharing/share-offsite/?text=${encodeURIComponent(
-                  `I completed my internship at ${certificateData.organization_name || "SkillHat"}! 🎉`,
+                  `I completed my internship at ${certificateData.organization_name || "Gocyn"}! 🎉`,
                 )}`,
               );
             }}

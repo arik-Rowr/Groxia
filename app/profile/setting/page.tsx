@@ -169,7 +169,7 @@ export default function SettingsPage() {
                         Account Deleted Successfully
                       </h3>
                       <p className="text-gray-600 mt-3 sm:mt-4 max-w-md mx-auto text-sm sm:text-base">
-                        Your SkillHat account has been permanently deleted.
+                        Your Gocyn account has been permanently deleted.
                         <br />
                         Thank you for being part of our community.
                       </p>
@@ -240,7 +240,7 @@ export default function SettingsPage() {
                           >
                             I understand that deleting my account is permanent
                             and I will lose all my data, internships,
-                            connections and profile on SkillHat.
+                            connections and profile on Gocyn.
                           </label>
                         </div>
 

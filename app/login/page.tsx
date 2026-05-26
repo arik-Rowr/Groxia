@@ -114,14 +114,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-950 transition-colors">
-      <div className="absolute inset-0 bg-[radial-gradient(#3b82f630_1px,transparent_1px)] bg-[length:40px_40px] opacity-30 pointer-events-none dark:opacity-10" />
+    <div className="min-h-screen flex items-center justify-center p-6 bg-white transition-colors">
+      <div className="absolute bg-white opacity-30 pointer-events-none " />
 
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-md w-full bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl shadow-slate-200/70 dark:shadow-black/40 border border-slate-100 dark:border-zinc-700 p-8 md:p-12 backdrop-blur-xl"
+        className="max-w-md w-full bg-white    p-8 md:p-12 backdrop-blur-xl"
       >
         {/* Header */}
         <div className="text-center mb-10">
@@ -129,7 +129,7 @@ export default function Login() {
             Welcome back
           </h1>
           <p className="mt-2 text-slate-500 dark:text-slate-400">
-            Sign in to your Skillhat account
+            Sign in to your Gocyn account
           </p>
         </div>
 
@@ -246,7 +246,7 @@ export default function Login() {
             whileTap={{ scale: 0.97 }}
             type="submit"
             disabled={loading}
-            className="group relative w-full flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+            className="group relative w-full flex items-center justify-center gap-2 bg-blue-400 px-8 py-2 text-lg font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? (
               <>

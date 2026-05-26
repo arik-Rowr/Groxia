@@ -111,7 +111,7 @@ export default function AdminLogin() {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
         <div className="scale-350 sm:scale-200 md:scale-[2.5] lg:scale-[3.8] transition-transform duration-700">
           <CircularText
-            text="WELCOME*TO*SKILLHAT*"
+            text="WELCOME*TO*GOCYN*"
             spinDuration={25}
             className="text-white/20"
           />

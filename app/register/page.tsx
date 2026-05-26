@@ -16,8 +16,9 @@ import {
   Loader2,
   GraduationCap,
 } from "lucide-react";
+import Image from "next/image";
 
-const API = process.env.NEXT_PUBLIC_APP_URL
+const API = process.env.NEXT_PUBLIC_APP_URL;
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -104,7 +105,7 @@ export default function Register() {
             Account Created!
           </h2>
           <p className="mt-3 text-slate-500 dark:text-slate-400">
-            Welcome to Skillhat. Redirecting you to login...
+            Welcome to Gocyn. Redirecting you to login...
           </p>
 
           <div className="mt-10 flex justify-center">
@@ -119,10 +120,10 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-950 transition-colors">
+    <div className="min-h-screen flex bg-white transition-colors">
       {/* Illustration Panel */}
       <div className="hidden lg:flex lg:w-5/12 bg-gradient-to-br from-blue-600 to-indigo-700 p-12 flex-col items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] bg-[length:40px_40px] opacity-30" />
+        <div className="absolute inset-0 bg-white opacity-30" />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -130,25 +131,32 @@ export default function Register() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10 flex flex-col items-center text-center text-white"
         >
-          <div className="relative mb-1 h-64 w-64">
-            <motion.div
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            >
-              <GraduationCap
-                size={152}
-                className="text-white drop-shadow-2xl"
+          <div className="relative flex flex-col items-center mb-20 pointer-events-none">
+            {/* Logo Image */}
+            <div className="relative">
+              <Image
+                src="/logo.png"
+                alt="Gocyn Logo"
+                width={260}
+                height={260}
+                className="drop-shadow-xl "
+                priority
               />
-            </motion.div>
+
+              {/* Company Name Overlay */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+                <h1 className="text-6xl md:text-7xl font-bold tracking-[-0.04em] text-white text-center drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+                  GOCYN
+                </h1>
+              </div>
+            </div>
           </div>
 
           <h2 className="text-5xl font-bold tracking-tighter mb-3">
             Learn smarter.
           </h2>
           <p className="text-2xl font-medium text-blue-100 max-w-xs">
-            Join 10,000+ students mastering the future at Skillhat
+            Join 10,000+ students mastering the future at Gocyn
           </p>
         </motion.div>
       </div>
@@ -159,7 +167,7 @@ export default function Register() {
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="max-w-md w-full bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl shadow-slate-200/70 dark:shadow-black/40 border border-slate-100 dark:border-zinc-700 p-8 md:p-12 backdrop-blur-xl"
+          className="max-w-md w-full bg-white p-8 md:p-12 backdrop-blur-xl"
         >
           {/* Header */}
           <div className="text-center mb-5">
@@ -167,7 +175,7 @@ export default function Register() {
               Get started
             </h1>
             <p className="mt-2 text-slate-500 dark:text-slate-400">
-              Create your Skillhat account
+              Create your Gocyn account
             </p>
           </div>
 
@@ -295,7 +303,7 @@ export default function Register() {
               whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={loading || !agreed}
-              className="group relative w-full flex items-center justify-center gap-2 overflow-hidden rounded-2xl bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+              className="group relative w-full flex items-center justify-center gap-2 overflow-hidden bg-blue-600 px-8 py-2 text-lg font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? (
                 <>

@@ -5,16 +5,16 @@ import { AuthProvider } from "@/src/context/AuthContext";
 import Navbar from "@/src/components/Navbar";
 import Footer from "@/src/components/Footer";
 import { cn } from "@/lib/utils";
-import ClientWrapper from "@/src/components/ClientWrapper";
 import MentorPromoModal from "@/src/components/MentorPromo";
+
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Skill-hatt | Professional Learning Platform",
-  description:
-    "Empowering the next generation of professionals through expert-led courses.",
+  title: "Gocyn",
+  description: "Find answers to frequently asked questions about Gocyn internships, certifications, mentorship, and how to get started.",
+  keywords: ["internship FAQ", "Gocyn questions", "certification verification", "student internship India"],
   icons: {
     icon: "/icon.png",
   },
@@ -32,13 +32,16 @@ export default function RootLayout({
       >
 
         <AuthProvider>
-          <ClientWrapper>
+    
             <Navbar />
 
-            <main>{children}</main>
+            <main>
+              
+              {children}
+              </main>
             <MentorPromoModal />
             <Footer />
-          </ClientWrapper>
+         
         </AuthProvider>
       </body>
     </html>

@@ -97,8 +97,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-lg font-semibold">Email Us</p>
-                  <a href="mailto:hello@skillhat.com" className="text-blue-600 hover:underline text-xl">
-                    hello@skillhat.com
+                  <a href="mailto:hello@Gocyn.com" className="text-blue-600 hover:underline text-xl">
+                    hello@Gocyn.com
                   </a>
                 </div>
               </div>

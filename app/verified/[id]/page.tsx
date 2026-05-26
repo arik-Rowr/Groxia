@@ -90,7 +90,7 @@ export default function CertificatePage() {
       });
 
       pdf.addImage(imgData, "PNG", 0, 0, 1123, 794);
-      pdf.save(`SkillHat-Certificate-${certificateData.certificate_id}.pdf`);
+      pdf.save(`Gocyn-Certificate-${certificateData.certificate_id}.pdf`);
     } catch (err) {
       console.error(err);
       alert("Failed to generate PDF");
@@ -137,7 +137,7 @@ export default function CertificatePage() {
             <div className="flex items-center gap-3">
               <FaAward size={32} className="md:size-10" />
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold">SkillHat</h1>
+                <h1 className="text-2xl md:text-3xl font-bold">Gocyn</h1>
                 <p className="text-xs md:text-sm opacity-90">Academy of Excellence</p>
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function CertificatePage() {
                 triggerConfetti();
                 window.open(
                   `https://www.linkedin.com/sharing/share-offsite/?text=${encodeURIComponent(
-                    `I just earned my ${certificateData.internship_title} certificate from SkillHat! 🎉`
+                    `I just earned my ${certificateData.internship_title} certificate from Gocyn! 🎉`
                   )}`
                 );
               }}
@@ -225,7 +225,7 @@ export default function CertificatePage() {
         </motion.div>
 
         <p className="text-center text-xs md:text-sm text-gray-500 mt-8">
-          This certificate has been verified by SkillHat Secure System
+          This certificate has been verified by Gocyn Secure System
         </p>
       </div>
     </div>

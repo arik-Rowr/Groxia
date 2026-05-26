@@ -31,7 +31,7 @@ export default function AboutPage() {
               <div className="flex items-center gap-3">
                 <FiZap className="w-8 h-8 text-blue-600" />   {/* ← Fixed */}
                 <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
-                  About <span className="text-blue-600">Skillhat</span>
+                  About <span className="text-blue-600">Gocyn</span>
                 </h1>
               </div>
               <p className="text-xl text-gray-600 max-w-lg">
@@ -65,7 +65,7 @@ export default function AboutPage() {
               <div className="aspect-video bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                 <Image
                   src="/logo.png"
-                  alt="Skillhat Team - Empowering Future Professionals"
+                  alt="GOCYN Team - Empowering Future Professionals"
                   width={1400}
                   height={788}
                   quality={90}
@@ -107,7 +107,7 @@ export default function AboutPage() {
                   Building Future Leaders Through Real Experience
                 </h2>
                 <p className="mt-6 text-lg text-gray-600">
-                  At Skillhat, we believe every student deserves hands-on industry exposure. 
+                  At Gocyn, we believe every student deserves hands-on industry exposure. 
                   We bridge the gap between academic learning and real-world success.
                 </p>
               </motion.div>
@@ -178,7 +178,7 @@ export default function AboutPage() {
                 <FiZap className="w-9 h-9 text-blue-600" />   {/* ← Fixed */}
               </div>
               <h4 className="font-semibold mb-2">2024</h4>
-              <p className="text-gray-600">Skillhat was born in Indore with 12 students and 3 mentors.</p>
+              <p className="text-gray-600">Gocyn was born in Indore with 12 students and 3 mentors.</p>
             </motion.div>
 
             <motion.div
@@ -274,7 +274,7 @@ export default function AboutPage() {
       <section className="py-20 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-4xl font-semibold">Ready to build your future?</h2>
-          <p className="mt-4 text-xl opacity-90">Join thousands of students who transformed their careers with Skillhat.</p>
+          <p className="mt-4 text-xl opacity-90">Join thousands of students who transformed their careers with Gocyn.</p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/register"

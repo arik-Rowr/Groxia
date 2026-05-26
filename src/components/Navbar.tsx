@@ -123,6 +123,7 @@ export default function Navbar() {
     "/auth/forgot-password",
     "/auth/reset-password",
     "/internships/[id]",
+    
   ];
 
   const shouldHide =
@@ -130,6 +131,7 @@ export default function Navbar() {
     pathname.startsWith("/course/") ||
     pathname.startsWith("/mentors/") ||
     pathname.startsWith("/profile/") ||
+    pathname.startsWith("/partner/") ||
     pathname.startsWith("/admin/");
 
   if (!isMounted || shouldHide) return null;
@@ -225,12 +227,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0" aria-label="Home">
-            <div className="w-20 sm:w-24 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100">
+            <div className=" flex items-center justify-center ">
               <Image
                 src="/logo.png"
                 alt="Company Logo"
-                height={100}
-                width={100}
+                height={90}
+                width={80}
                 className="object-contain"
                 priority
               />
