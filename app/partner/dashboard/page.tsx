@@ -1,3 +1,5 @@
+"use client";
+
 import AnalyticsChart from "@/src/components/AnalyticsChart";
 import Link from "next/link";
 
@@ -39,6 +41,29 @@ const recentEnrollments = [
     status: "Active",
   },
 ];
+
+const overviewData = [
+  { label: "Mon", earnings: 90, enrollments: 3 },
+  { label: "Tue", earnings: 150, enrollments: 5 },
+  // ... full data
+];
+
+const metrics = [
+  {
+    key: "earnings",
+    label: "Earnings",
+    color: "#185FA5",
+    format: (v: number) => `₹${v.toLocaleString()}`,
+    yAxisId: "left" as const,
+  },
+  {
+    key: "enrollments",
+    label: "Enrollments",
+    color: "#1D9E75",
+    format: (v: number) => v.toLocaleString(),
+    yAxisId: "right" as const,
+  },
+];
 // -------------------------------------------------------------
 
 export default function DashboardOverview() {
@@ -46,13 +71,12 @@ export default function DashboardOverview() {
     <div className="space-y-8">
       {/* Page Header */}
 
-
       {/* Top KPI Stat Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="overflow-hidden rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-gray-800 dark:bg-gray-800"
+            className="overflow-hidden  bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-gray-800 dark:bg-gray-800"
           >
             <div className="flex items-center justify-between">
               <p className="truncate text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -78,29 +102,32 @@ export default function DashboardOverview() {
       {/* Main Content Grid (Charts & Activity) */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* Chart Section (Spans 2 columns) */}
-        <div className="lg:col-span-2 flex flex-col rounded-xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
-          <div className="border-b border-gray-100 px-6 py-5 dark:border-gray-700 flex justify-between items-center">
-            <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+        <div className="lg:col-span-2 flex flex-col  border  bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
+          <div className="border-b border-gray-100 px-4 py-3 sm:px-6 sm:py-5 dark:border-gray-700 flex justify-between items-center">
+            <h2 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
               Revenue & Enrollments
             </h2>
-            <select className="text-sm bg-gray-50 border-none rounded-md text-gray-600 focus:ring-0 dark:bg-gray-700 dark:text-gray-300">
-              <option>Last 30 Days</option>
-              <option>This Year</option>
-              <option>All Time</option>
-            </select>
           </div>
-          <div className="w-full h-full min-h-[300px]">
-            {" "}
-            {/* The chart will now dynamically fill 100% width and height of this container */}
-            <AnalyticsChart />
+          <div className="w-full p-3 sm:p-5">
+            <AnalyticsChart
+              data={overviewData}
+              metrics={metrics}
+              periodOptions={[
+                { value: "7d", label: "7d" },
+                { value: "30d", label: "30d" },
+              ]}
+              defaultPeriod="7d"
+              xAxisDataKey="label"
+              height={300}
+            />
           </div>
         </div>
 
         {/* Quick Actions / Up Next (Spans 1 column) */}
-        <div className="flex flex-col rounded-xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
+        <div className="flex flex-col  border  bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
           <div className="border-b border-gray-100 px-6 py-5 dark:border-gray-700">
             <h2 className="text-base font-semibold text-gray-900 dark:text-white">
-              Mentor Actions
+              Actions
             </h2>
           </div>
           <div className="p-6 space-y-4">
@@ -196,7 +223,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* Recent Enrollments Table */}
-      <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
+      <div className="overflow-hidden  border  bg-white shadow-sm dark:border-gray-800 dark:bg-gray-800">
         <div className="border-b border-gray-100 px-6 py-5 dark:border-gray-700 flex justify-between items-center">
           <h2 className="text-base font-semibold text-gray-900 dark:text-white">
             Recent Enrollments
@@ -210,35 +237,35 @@ export default function DashboardOverview() {
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-900/50">
+            <thead className="bg-blue-500 dark:bg-gray-900/50">
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                  className="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider dark:text-gray-400"
                 >
                   Student
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                  className="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider dark:text-gray-400"
                 >
                   Course
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                  className="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider dark:text-gray-400"
                 >
                   Enrolled Date
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                  className="px-6 py-3 text-left text-xs font-medium text-black-500 uppercase tracking-wider dark:text-gray-400"
                 >
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+            <tbody className="bg-white divide-y divide-gray-200 dark:bg-black-800 dark:divide-gray-700">
               {recentEnrollments.map((item) => (
                 <tr
                   key={item.id}

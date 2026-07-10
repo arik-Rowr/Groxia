@@ -13,9 +13,11 @@ import {
   MdMenu,
   MdClose,
   MdLogout,
+  MdAddModerator,
 } from "react-icons/md";
 import { HiDocument } from "react-icons/hi";
 import Image from "next/image";
+import AdModal from "@/src/components/MentorPromo";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -27,6 +29,7 @@ const NAV_ITEMS = [
   { path: "/admin/enrollments", label: "Enrollments", icon: MdPerson },
   { path: "/admin/certificates", label: "Certificates", icon: HiDocument },
   { path: "/admin/partners", label: "Registration", icon: MdAppRegistration },
+  { path: "/admin/ads", label: "Advertisment", icon: MdAddModerator },
 ] as const;
 
 const EXPANDED_WIDTH = 256;

@@ -32,7 +32,9 @@ const courseSchema = z.object({
   duration: z.string().min(1, "Duration is required"),
   price: z.string().min(1, "Price is required"),
   status: z.enum(["Published", "Draft", "Archived"]).default("Draft"),
-  whatYouWillLearn: z.string().min(10, "Please list at least one learning outcome"),
+  whatYouWillLearn: z
+    .string()
+    .min(10, "Please list at least one learning outcome"),
   prerequisites: z.string().optional(),
 });
 
@@ -116,25 +118,90 @@ export default function CreateCoursePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6">
+    <div className="min-h-screen bg-white py-2 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Link
             href="/partner/dashboard/programs"
-            className="p-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition"
+            className="p-2 bg-white hover:bg-white-50 transition"
           >
             <MdArrowBack size={20} className="text-gray-600" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Create New Course</h1>
-            <p className="text-gray-500 text-sm">Share your knowledge with students worldwide</p>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Create New Course
+            </h1>
+            <p className="text-gray-500 text-sm">
+              Share your knowledge with students worldwide
+            </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Media & Status */}
+          <div className="bg-white  p-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <MdCloudUpload className="text-indigo-500" /> Media & Status
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Cover Image (optional)
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-indigo-500 transition">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    id="courseImageUpload"
+                  />
+                  <label
+                    htmlFor="courseImageUpload"
+                    className="cursor-pointer flex flex-col items-center gap-1"
+                  >
+                    <MdCloudUpload size={32} className="text-gray-400" />
+                    <span className="text-sm text-gray-500">
+                      Click to upload
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      JPG, PNG up to 2MB
+                    </span>
+                  </label>
+                </div>
+                {imagePreview && (
+                  <div className="mt-3">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="h-24 w-auto rounded-lg object-cover border"
+                    />
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Status *
+                </label>
+                <select
+                  {...register("status")}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                >
+                  <option value="Draft">Draft (not visible to students)</option>
+                  <option value="Published">
+                    Published (immediately available)
+                  </option>
+                  <option value="Archived">
+                    Archived (hidden from listings)
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
           {/* Basic Info */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white  p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <MdBook className="text-indigo-500" /> Course Details
             </h2>
@@ -149,7 +216,9 @@ export default function CreateCoursePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500"
                 />
                 {errors.title && (
-                  <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.title.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -162,7 +231,9 @@ export default function CreateCoursePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 />
                 {errors.instructor && (
-                  <p className="text-red-500 text-xs mt-1">{errors.instructor.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.instructor.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -175,11 +246,15 @@ export default function CreateCoursePage() {
                 >
                   <option value="">Select category</option>
                   {categories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
                   ))}
                 </select>
                 {errors.category && (
-                  <p className="text-red-500 text-xs mt-1">{errors.category.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.category.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -199,7 +274,7 @@ export default function CreateCoursePage() {
           </div>
 
           {/* Duration & Pricing */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white  p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <MdTimeline className="text-indigo-500" /> Timeline & Pricing
             </h2>
@@ -214,7 +289,9 @@ export default function CreateCoursePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 />
                 {errors.duration && (
-                  <p className="text-red-500 text-xs mt-1">{errors.duration.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.duration.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -227,14 +304,16 @@ export default function CreateCoursePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 />
                 {errors.price && (
-                  <p className="text-red-500 text-xs mt-1">{errors.price.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.price.message}
+                  </p>
                 )}
               </div>
             </div>
           </div>
 
           {/* Learning Outcomes & Prerequisites */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <MdSchool className="text-indigo-500" /> Learning Path
             </h2>
@@ -250,7 +329,9 @@ export default function CreateCoursePage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-xl resize-none"
                 />
                 {errors.whatYouWillLearn && (
-                  <p className="text-red-500 text-xs mt-1">{errors.whatYouWillLearn.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.whatYouWillLearn.message}
+                  </p>
                 )}
               </div>
               <div>
@@ -268,7 +349,7 @@ export default function CreateCoursePage() {
           </div>
 
           {/* Description */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div className="bg-white p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <MdDescription className="text-indigo-500" /> Course Description
             </h2>
@@ -280,54 +361,10 @@ export default function CreateCoursePage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-xl resize-none"
               />
               {errors.description && (
-                <p className="text-red-500 text-xs mt-1">{errors.description.message}</p>
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.description.message}
+                </p>
               )}
-            </div>
-          </div>
-
-          {/* Media & Status */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <MdCloudUpload className="text-indigo-500" /> Media & Status
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cover Image (optional)
-                </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:border-indigo-500 transition">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                    id="courseImageUpload"
-                  />
-                  <label htmlFor="courseImageUpload" className="cursor-pointer flex flex-col items-center gap-1">
-                    <MdCloudUpload size={32} className="text-gray-400" />
-                    <span className="text-sm text-gray-500">Click to upload</span>
-                    <span className="text-xs text-gray-400">JPG, PNG up to 2MB</span>
-                  </label>
-                </div>
-                {imagePreview && (
-                  <div className="mt-3">
-                    <img src={imagePreview} alt="Preview" className="h-24 w-auto rounded-lg object-cover border" />
-                  </div>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status *
-                </label>
-                <select
-                  {...register("status")}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-                >
-                  <option value="Draft">Draft (not visible to students)</option>
-                  <option value="Published">Published (immediately available)</option>
-                  <option value="Archived">Archived (hidden from listings)</option>
-                </select>
-              </div>
             </div>
           </div>
 
@@ -348,8 +385,20 @@ export default function CreateCoursePage() {
               {isSubmitting ? (
                 <>
                   <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Creating...
                 </>

@@ -26,6 +26,8 @@
   }
 }
 
+
+
 .animate-scroll-left-to-right {
   animation: scroll-left-to-right 20s linear infinite;
 }

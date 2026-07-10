@@ -49,3 +49,21 @@ export interface Internship {
   imageUrl?: string;
   public_id?: string;
 }
+
+export interface Ad {
+  _id: string;         // ← changed from id to _id
+  image: string;
+  height?: string;
+  width?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  buttonColor?: string;
+  buttonBg?: string;
+  buttonSize?: string;
+  buttonBorderRadius?: string;
+  autoCloseSeconds?: number;
+  active?: boolean;
+  order?: number;
+  views?: number;
+  clicks?: number;
+}

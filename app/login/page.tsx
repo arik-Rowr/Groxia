@@ -14,6 +14,7 @@ import {
   Loader2, // ← React icon spinner (Lucide)
 } from "lucide-react";
 import { useAuth } from "@/src/context/AuthContext";
+import GoogleAuthButton from "@/src/components/libs/google-auth";
 
 const API = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -265,7 +266,9 @@ export default function Login() {
             )}
           </motion.button>
         </form>
-
+        <div className="mt-9">
+          <GoogleAuthButton />
+        </div>
         {/* Footer */}
         <div className="mt-10 text-center text-sm">
           <span className="text-slate-500 dark:text-slate-400">

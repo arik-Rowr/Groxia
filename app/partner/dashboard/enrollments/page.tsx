@@ -17,6 +17,7 @@ import {
   CheckCircle,
   Search,
   Filter,
+  X,
 } from "lucide-react";
 
 // --- MOCK DATA (extended with certificate_issued & proper IDs) ---
@@ -80,7 +81,7 @@ export default function EnrollmentsPage() {
   const [enrollments, setEnrollments] = useState<Enrollment[]>(mockEnrollments);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "recent" | "older">(
-    "all"
+    "all",
   );
   const [courseFilter, setCourseFilter] = useState("");
   const [sortConfig, setSortConfig] = useState<{
@@ -91,7 +92,8 @@ export default function EnrollmentsPage() {
   const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
   const [loading, setLoading] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [enrollmentToDelete, setEnrollmentToDelete] = useState<Enrollment | null>(null);
+  const [enrollmentToDelete, setEnrollmentToDelete] =
+    useState<Enrollment | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Helper: check if a date string is within last 24h
@@ -110,7 +112,7 @@ export default function EnrollmentsPage() {
   // Unique courses for filter
   const uniqueCourses = useMemo(
     () => [...new Set(enrollments.map((e) => e.course))].sort(),
-    [enrollments]
+    [enrollments],
   );
 
   // Filtering + Sorting
@@ -168,7 +170,14 @@ export default function EnrollmentsPage() {
   // CSV Export
   const exportToCSV = (items: Enrollment[]) => {
     if (items.length === 0) return;
-    const headers = ["Student", "Email", "Course", "Status", "Progress", "Enrolled At"];
+    const headers = [
+      "Student",
+      "Email",
+      "Course",
+      "Status",
+      "Progress",
+      "Enrolled At",
+    ];
     const csvRows = items.map((item) => [
       `"${item.student}"`,
       item.email,
@@ -177,7 +186,9 @@ export default function EnrollmentsPage() {
       item.progress,
       `"${formatDate(item.date)}"`,
     ]);
-    const csvContent = [headers, ...csvRows].map((row) => row.join(",")).join("\n");
+    const csvContent = [headers, ...csvRows]
+      .map((row) => row.join(","))
+      .join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -209,8 +220,8 @@ export default function EnrollmentsPage() {
     // Optimistic update
     setEnrollments((prev) =>
       prev.map((e) =>
-        e.id === enrollment.id ? { ...e, certificateIssued: true } : e
-      )
+        e.id === enrollment.id ? { ...e, certificateIssued: true } : e,
+      ),
     );
     // In a real app, you'd call an API here
     alert(`Certificate sent to ${enrollment.student} (mock)`);
@@ -228,7 +239,7 @@ export default function EnrollmentsPage() {
     // Simulate API call
     setTimeout(() => {
       setEnrollments((prev) =>
-        prev.filter((e) => e.id !== enrollmentToDelete.id)
+        prev.filter((e) => e.id !== enrollmentToDelete.id),
       );
       setSelected((prev) => {
         const next = new Set(prev);
@@ -265,19 +276,11 @@ export default function EnrollmentsPage() {
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-900">Enrollments</h1>
-          <p className="text-gray-600 mt-1">
-            {filteredEnrollments.length} application
-            {filteredEnrollments.length !== 1 ? "s" : ""} • Manage student enrollments
-          </p>
-        </div>
-
         <div className="flex items-center gap-3">
           <button
             onClick={handleRefresh}
             disabled={loading}
-            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2 bg-blue-500 hover:bg-blue-800 text-white transition disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             Refresh
@@ -285,17 +288,19 @@ export default function EnrollmentsPage() {
 
           <button
             onClick={() => exportToCSV(filteredEnrollments)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
+            className="flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-700 text-white  transition"
           >
-            <Download className="w-4 h-4" />
-            Export All CSV
+            <Download className="w-6 h-6" />
+            Export
           </button>
 
-          <div className="flex border rounded-xl overflow-hidden bg-white">
+          <div className="flex border  overflow-hidden bg-white">
             <button
               onClick={() => setViewMode("table")}
               className={`px-5 py-2.5 text-sm font-medium transition ${
-                viewMode === "table" ? "bg-gray-900 text-white" : "hover:bg-gray-100"
+                viewMode === "table"
+                  ? "bg-gray-900 text-white"
+                  : "hover:bg-gray-100"
               }`}
             >
               Table
@@ -303,7 +308,9 @@ export default function EnrollmentsPage() {
             <button
               onClick={() => setViewMode("cards")}
               className={`px-5 py-2.5 text-sm font-medium transition ${
-                viewMode === "cards" ? "bg-gray-900 text-white" : "hover:bg-gray-100"
+                viewMode === "cards"
+                  ? "bg-gray-900 text-white"
+                  : "hover:bg-gray-100"
               }`}
             >
               Cards
@@ -313,59 +320,76 @@ export default function EnrollmentsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-6 items-end">
+      <div className="flex flex-wrap gap-4 mb-6 items-end ">
         <div className="flex-1 min-w-[260px]">
           <div className="relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search by name, email or course..."
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-10 py-2.5 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {search && (
+              <button
+                onClick={clearFilters}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                aria-label="Clear search"
+              >
+                <X size={30} />
+              </button>
+            )}
           </div>
         </div>
 
-        <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">
-            Enrolled Date
-          </label>
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">All time</option>
-            <option value="recent">Recent (last 24h)</option>
-            <option value="older">Older</option>
-          </select>
-        </div>
+        <div className="flex flex-col-3 sm:flex-row gap-4 sm:items-end">
+          {/* Enrolled Date Filter */}
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-gray-500 mb-2">
+              Enrolled Date
+            </label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All time</option>
+              <option value="recent">Recent (last 24h)</option>
+              <option value="older">Older</option>
+            </select>
+          </div>
 
-        <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">
-            Course
-          </label>
-          <select
-            value={courseFilter}
-            onChange={(e) => setCourseFilter(e.target.value)}
-            className="px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Courses</option>
-            {uniqueCourses.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* Course Filter */}
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-gray-500 mb-2">
+              Course
+            </label>
+            <select
+              value={courseFilter}
+              onChange={(e) => setCourseFilter(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All Courses</option>
+              {uniqueCourses.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <button
-          onClick={clearFilters}
-          className="px-5 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 flex items-center gap-2"
-        >
-          <Filter size={16} /> Clear Filters
-        </button>
+          {/* Clear Filters Button (assuming you have it) */}
+          <button
+            onClick={clearFilters}
+            className="px-4 py-4 text-sm font-medium text-red-500 hover:text-gray-700 flex items-center justify-center gap-2  sm:w-auto"
+          >
+            <Filter size={16} /> Clear Filters
+          </button>
+        </div>
       </div>
 
       {/* Bulk Actions Bar */}
@@ -379,7 +403,7 @@ export default function EnrollmentsPage() {
             <button
               onClick={() =>
                 exportToCSV(
-                  filteredEnrollments.filter((e) => selected.has(e.id))
+                  filteredEnrollments.filter((e) => selected.has(e.id)),
                 )
               }
               className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-2xl hover:bg-green-700"
@@ -391,9 +415,15 @@ export default function EnrollmentsPage() {
       )}
 
       {/* Loading / Empty */}
-      {loading && <div className="text-center py-20 text-gray-500">Loading enrollments...</div>}
+      {loading && (
+        <div className="text-center py-20 text-gray-500">
+          Loading enrollments...
+        </div>
+      )}
       {!loading && filteredEnrollments.length === 0 && (
-        <div className="text-center py-20 text-gray-400">No enrollments found</div>
+        <div className="text-center py-20 text-gray-400">
+          No enrollments found
+        </div>
       )}
 
       {/* Card View */}
@@ -437,7 +467,9 @@ export default function EnrollmentsPage() {
                   <div>
                     <p className="font-medium text-gray-800">{enr.course}</p>
                     <div className="flex items-center gap-1 text-sm text-gray-500">
-                      <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${getStatusBadge(enr.status)}`}>
+                      <span
+                        className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${getStatusBadge(enr.status)}`}
+                      >
                         {enr.status}
                       </span>
                     </div>
@@ -489,15 +521,16 @@ export default function EnrollmentsPage() {
 
       {/* Table View */}
       {!loading && viewMode === "table" && filteredEnrollments.length > 0 && (
-        <div className="bg-white rounded-3xl shadow overflow-hidden">
+        <div className="bg-white  shadow overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-blue-500">
               <tr>
                 <th className="px-6 py-4 w-12">
                   <input
                     type="checkbox"
                     checked={
-                      selected.size === filteredEnrollments.length && filteredEnrollments.length > 0
+                      selected.size === filteredEnrollments.length &&
+                      filteredEnrollments.length > 0
                     }
                     onChange={toggleSelectAll}
                     className="w-4 h-4 accent-blue-600"
@@ -553,7 +586,9 @@ export default function EnrollmentsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusBadge(enr.status)}`}>
+                    <span
+                      className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusBadge(enr.status)}`}
+                    >
                       {enr.status}
                     </span>
                   </td>
@@ -579,7 +614,7 @@ export default function EnrollmentsPage() {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                   </td>
+                  </td>
                 </tr>
               ))}
             </tbody>

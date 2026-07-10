@@ -212,7 +212,7 @@ lg:translate-x-0
                 onClick={() => setSidebarOpen(false)}
                 className={`
                   group flex items-center gap-4
-                  rounded-2xl px-4 py-3
+                   px-4 py-3
                   text-sm font-medium
                   transition-all
                   ${

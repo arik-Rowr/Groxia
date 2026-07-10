@@ -23,7 +23,7 @@ import { FaBuilding, FaUserGraduate } from "react-icons/fa";
 import CountUp from "@/src/components/CountUp";
 import { useRouter } from "next/navigation";
 import { GraduationCap, FileText } from "lucide-react";
-import CircularText from "@/src/components/CircularText";
+import { useAuth } from "@/src/context/AuthContext";
 import FAQPage from "@/src/components/FQPage";
 import Image from "next/image";
 
@@ -47,6 +47,7 @@ const stats = [
 // ================= INTERNSHIP CARD (STRUCTURE UNCHANGED) =================
 const InternshipCard = ({ item }: any) => {
   const router = useRouter();
+
 
   return (
     <motion.div
@@ -156,17 +157,24 @@ const MentorCard = ({ mentor }: any) => {
 export default function Home() {
   const [internships, setInternships] = useState<any[]>([]);
   const [mentors, setMentors] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [imgIndex, setImgIndex] = useState(0);
+  const [loadings, setLoading] = useState(true);
+  const [imgIndex, setImgIndex] = useState(0);  
+  
+  const { user, loading } = useAuth();
+
+
+
 
   // Hero Background Auto Change
-useEffect(() => {
-  const timer = setInterval(() => {
-    setImgIndex((prev) => (prev + 1) % heroImages.length);
-  }, 3000);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setImgIndex((prev) => (prev + 1) % heroImages.length);
+    }, 3000);
 
-  return () => clearInterval(timer);
-}, []);
+    return () => clearInterval(timer);
+  }, []);
+
+
 
   // Fetch Data
   useEffect(() => {
@@ -189,6 +197,8 @@ useEffect(() => {
     };
     fetchData();
   }, []);
+
+  if (loading) return null; 
 
   return (
     <div className="space-y-16 md:space-y-20 pb-16 md:pb-20 bg-[#fcfcfc]">
@@ -309,7 +319,7 @@ useEffect(() => {
 
         {/* Cards Container - Yeh part change kiya hai */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {loading
+          {loadings
             ? [1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
@@ -541,51 +551,56 @@ useEffect(() => {
       </section>
 
       {/* CALL TO ACTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-zinc-950 via-zinc-900 to-black border border-white/10 py-16 md:py-20">
-        {/* Background Glows */}
-        <div className="absolute -left-40 top-10 h-80 w-80 rounded-full bg-violet-500/10 blur-3xl" />
-        <div className="absolute -right-40 bottom-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.06]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="space-y-6">
-            {/* Main Heading */}
-            <h2 className="text-4xl md:text-4xl lg:text-5xl font-bold text-white tracking-tighter leading-tight">
-              Ready to jumpstart your career?
-            </h2>
-
-            {/* Subheading */}
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              Join thousands of students gaining real industry experience
-              through expert mentorship and recognized certifications.
-            </p>
-
-            {/* CTA Button */}
-            <div className="pt-4">
-              <Link
-                href="/register"
-                className="group inline-flex items-center gap-3 bg-white text-black hover:bg-gray-100 px-10 py-3 font-semibold text-lg transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-white/20"
-              >
-                Get Started Free
-                <span className="group-hover:translate-x-1 transition-transform">
-                  →
-                </span>
-              </Link>
+      {!user && (
+        <>
+          {" "}
+          <section className="relative overflow-hidden bg-gradient-to-br from-zinc-950 via-zinc-900 to-black border border-white/10 py-16 md:py-20">
+            {/* Background Glows */}
+            <div className="absolute -left-40 top-10 h-80 w-80 rounded-full bg-violet-500/10 blur-3xl" />
+            <div className="absolute -right-40 bottom-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+            <div className="absolute inset-0 opacity-[0.06]">
+              <div
+                className="h-full w-full"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              />
             </div>
 
-            {/* Trust Signals */}
-          </div>
-        </div>
-      </section>
+            <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+              <div className="space-y-6">
+                {/* Main Heading */}
+                <h2 className="text-4xl md:text-4xl lg:text-5xl font-bold text-white tracking-tighter leading-tight">
+                  Ready to jumpstart your career?
+                </h2>
+
+                {/* Subheading */}
+                <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                  Join thousands of students gaining real industry experience
+                  through expert mentorship and recognized certifications.
+                </p>
+
+                {/* CTA Button */}
+                <div className="pt-4">
+                  <Link
+                    href="/register"
+                    className="group inline-flex items-center gap-3 bg-white text-black hover:bg-gray-100 px-10 py-3 font-semibold text-lg transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-white/20"
+                  >
+                    Get Started Free
+                    <span className="group-hover:translate-x-1 transition-transform">
+                      →
+                    </span>
+                  </Link>
+                </div>
+
+                {/* Trust Signals */}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       {/* MENTORS SECTION - Cards Auto Adjust */}
       <section className="max-w-7xl mx-auto px-4">
@@ -610,7 +625,7 @@ useEffect(() => {
 
         {/* ✅ FIXED GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {loading
+          {loadings
             ? [1, 2, 3, 4].map((i) => (
                 // ✅ FIXED SKELETON
                 <div
@@ -622,65 +637,69 @@ useEffect(() => {
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-6 md:px-10">
-        <FAQPage />
-      </section>
-      <section className="relative overflow-hidden  border border-white/10 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black px-6 py-6 md:px-10 shadow-xl">
-        {/* Background Glow */}
-        <div className="absolute -left-20 top-0 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
-        <div className="absolute right-0 top-0 h-60 w-60 rounded-full bg-cyan-500/20 blur-3xl" />
+      {!user && (
+        <>
+          <section className="relative overflow-hidden py-6 md:px-10">
+            <FAQPage />
+          </section>
+          <section className="relative overflow-hidden  border border-white/10 bg-gradient-to-r from-zinc-950 via-zinc-900 to-black px-6 py-6 md:px-10 shadow-xl">
+            {/* Background Glow */}
+            <div className="absolute -left-20 top-0 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
+            <div className="absolute right-0 top-0 h-60 w-60 rounded-full bg-cyan-500/20 blur-3xl" />
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.06]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
-
-        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-2xl"
-          >
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-300 backdrop-blur-md">
-              <Sparkles className="h-4 w-4" />
-              Partnership Program
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 opacity-[0.06]">
+              <div
+                className="h-full w-full"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              />
             </div>
 
-            <h2 className="text-2xl font-bold tracking-tight text-white md:text-4xl">
-              Partner With Us & Grow Together
-            </h2>
+            <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              {/* Left Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-2xl"
+              >
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1 text-sm font-medium text-violet-300 backdrop-blur-md">
+                  <Sparkles className="h-4 w-4" />
+                  Partnership Program
+                </div>
 
-            <p className="mt-3 text-sm leading-relaxed text-zinc-400 md:text-base">
-              Promote your brand, collaborate with our ecosystem, and unlock
-              premium partnership opportunities through our platform.
-            </p>
-          </motion.div>
+                <h2 className="text-2xl font-bold tracking-tight text-white md:text-4xl">
+                  Partner With Us & Grow Together
+                </h2>
 
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Link
-              href="/partner/login"
-              className="group inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
-            >
-              Become a Partner
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400 md:text-base">
+                  Promote your brand, collaborate with our ecosystem, and unlock
+                  premium partnership opportunities through our platform.
+                </p>
+              </motion.div>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Link
+                  href="/partner/login"
+                  className="group inline-flex items-center gap-2 bg-white px-6 py-3 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-zinc-200"
+                >
+                  Become a Partner
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
