@@ -5,10 +5,18 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host") || "";
   const url = request.nextUrl.clone();
 
-  if (host.startsWith("admin.")) {
+  if (host.startsWith("main.")) {
     // If already inside /admin, allow
     if (!url.pathname.startsWith("/admin")) {
       url.pathname = "/admin/login"; // 👈 IMPORTANT
+      return NextResponse.rewrite(url);
+    }
+  }
+
+  if (host.startsWith("mentor.")) {
+    // If already inside /admin, allow
+    if (!url.pathname.startsWith("/partner")) {
+      url.pathname = "/partner/login"; // 👈 IMPORTANT
       return NextResponse.rewrite(url);
     }
   }
