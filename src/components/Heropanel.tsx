@@ -188,3 +188,4 @@ export default function HeroPanels({ className }: { className?: string }) {
     </section>
   );
 }
+
