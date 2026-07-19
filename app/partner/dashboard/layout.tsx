@@ -19,6 +19,9 @@ import {
 import { Metadata } from "next";
 
 
+
+
+
 const navigation = [
   {
     name: "Overview",
@@ -178,7 +181,7 @@ lg:translate-x-0
               <div className="flex items-center gap-2 mt-1">
                 <div className="relative w-12 h-12 rounded-xl ">
                   <Image
-                    src="/logo.png"
+                    src="/public/logo.png"
                     alt="logo"
                     fill
                     className="object-cover"
